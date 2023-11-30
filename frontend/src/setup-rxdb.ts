@@ -35,11 +35,7 @@ export const rxDB: () => {
                         id: {
                             type: 'string',
                             primary: true,
-                            autoIncrement: true,
                             maxLength: 100 // <- the primary key must have set maxLength
-                        },
-                        uuid: {
-                            type: 'uuid'
                         },
                         name: {
                             type: 'string'
@@ -61,7 +57,6 @@ export const rxDB: () => {
                     {
                         collection: collection.tasks,
                         // url to the CouchDB endpoint (required)
-                        // url: 'http://18.202.198.187:5984/beam-positions/',
                         url: 'http://localhost:5984/todos/',
                         /**
                          * true for live replication,
@@ -77,47 +72,6 @@ export const rxDB: () => {
                          * (optional)
                          */
                         fetch: getFetchWithCouchDBAuthorization('admin', 'password'),
-                        pull: {
-                            /**
-                             * Amount of documents to be fetched in one HTTP request
-                             * (optional)
-                             */
-                            batchSize: 60,
-                            /**
-                             * Custom modifier to mutate pulled documents
-                             * before storing them in RxDB.
-                             * (optional)
-                             */
-                            modifier: docData => {
-                                console.log('Pulling data from couchdb')
-                                console.log(docData)
-                                return docData
-                            },
-                            /**
-                             * Heartbeat time in milliseconds
-                             * for the long polling of the changestream.
-                             * @link https://docs.couchdb.org/en/3.2.2-docs/api/database/changes.html
-                             * (optional, default=60000)
-                             */
-                            heartbeat: 60000
-                        },
-                        push: {
-                            /**
-                             * How many local changes to process at once.
-                             * (optional)
-                             */
-                            batchSize: 60,
-                            /**
-                             * Custom modifier to mutate documents
-                             * before sending them to the CouchDB endpoint.
-                             * (optional)
-                             */
-                            modifier: docData => {
-                                console.log('Sending data to couchdb')
-                                console.log(docData)
-                                return docData
-                            },
-                        },
                     }
                 );
 
