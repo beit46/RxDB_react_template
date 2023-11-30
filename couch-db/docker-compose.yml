@@ -1,0 +1,20 @@
+version: '3'
+services:
+  couchserver:
+    image: couch-db
+    restart: always
+    ports:
+      - "5984:5984"
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+  initializer:
+    image: curlimages/curl
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - couchserver
+    command: ["sh","-c","sleep 1 && curl -u admin:password -X PUT couchserver:5984/_users &&  curl -u admin:password -X PUT couchserver:5984/todos"]

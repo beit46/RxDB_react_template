@@ -1,0 +1,4 @@
+# HOW TO
+
+build the docker container
+```docker build -t couch-db:latest```
